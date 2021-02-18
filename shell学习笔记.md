@@ -678,6 +678,15 @@ ctrl + r 可以有搜索历史命令的功能
 ```
 让history显示时间
 HISTTIMEFORMAT="`whoami` @ %F %T @"
+HISTSIZE=2000
+
+histoty
+最多记录一千条
+
+[root@instance-1 ~]# echo $HISTSIZE
+1000
+
+在/etc/profile中可以改
 ```
 
 
@@ -885,4 +894,297 @@ done
 ```
 
 
+
+## 帮助
+
+### whatis
+
+会显示一句简单的介绍
+
+```
+[root@ali ~]# whatis ls
+ls (1)               - list directory contents
+
+[root@ali ~]# whatis cd
+cd (1)               - bash built-in commands, see bash(1)
+cd (n)               - Change working directory
+
+makewhatis   生成缓存 （centos6）
+mandb           (centos7）
+```
+
+### help
+
+查看帮助
+
+```
+help
+查看帮助
+```
+
+### man手册
+
+```
+配合whatis可以查看在man手册的第几章
+
+
+[root@aliyun ~]# whatis ls
+ls (1)               - list directory contents
+[root@aliyun ~]# man 1 ls
+
+
+中文包
+man-pages-zh-CN
+```
+
+
+
+
+
+### info命令
+
+```
+和man相似
+
+但是不常用
+```
+
+
+
+## 网络网卡
+
+```
+vim /etc/sysconfig/network-scripts/ifcfg-ens33
+
+编辑网卡设置
+把onboot打开
+
+获取ip
+dhclient -v ens33       获取
+ 
+释放ip
+dhclient -r ens33
+```
+
+
+
+## 快捷键
+
+### vim快捷键
+
+```
+:set list 显示空格，换行
+:set nolist 取消显示空格
+:set number 显示行号
+:set nonumber 取消显示行号
+:wq 保存并退出
+:q 退出
+:q! 强制退出
+^ 到行开头
+$ 到行结尾
+G 到段结尾
+gg 到段开头
+i 在光标前插入
+a 在光标后插入
+dd 删除某行
+d $ 删除光标后所有
+daw 删除当前单词
+dw 删除当前字符到单词结束
+
+
+y 复制某行
+p 粘贴
+① 在编辑模式下输入
+ngg 或者 nG
+n为指定的行数(如25)
+例如：25gg或者25G 跳转到第25行.
+②在命令模式下输入行号n
+: n
+③如果想打开文件即跳转
+vim +n FileName
+
+vim /etc/passwd   +50
+跳转到第50行
+
+^f 向上翻
+^b 向下翻
+^n  自动补全
+
+
+```
+
+### trap
+
+```
+命令：trap
+解释：防止中止，尤其是用户用快捷键，挂起，中止，退出进程
+```
+
+
+
+
+
+### bash快捷键
+
+```
+光标移动：ctrl+a 光标移动到开头
+               ctrl+e 光标移动到结尾
+文本编辑：ctrl+u 删除光标之前的所有字符
+               ctrl+k 删除光标之后的所有字符
+               ctrl+y 撤销刚才的操作
+重复上个命令：
+                    !!
+调用历史命令：
+                !100
+                !-4         调用倒数第四条命令
+                !:0         调用上一个命令 不加参数
+                !system   调用以     开头
+                !?system  调用包含      的命令           
+                !system:p   打印以     开头的命令
+                !$              上一个命令最后一个参数
+                !*              上一个命令的所有参数
+搜索历史:
+            ctrl+r
+            退出 ctrl+g
+交换字符：
+            ctrl+t 
+            [root@ali ~]# ls -a
+            [root@ali ~]# ls a-
+
+```
+
+
+
+### clear清空屏幕
+
+```
+快捷键：ctrl+l
+命令：clear
+```
+
+## 时间命令
+
+### date时间
+
+```
+更改时区
+
+mv /etc/localtime /etc/localtime.bak
+ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+同步时间
+yum -y install ntp ntpdate
+ntpdate cn.pool.ntp.org
+
+ntpdate 192.168.123.222
+和另外一台服务器同步时间
+
+
+手动修改时间
+date -s "20170402 19:00:00"
+
+打一个时间戳 
+date +"%Y%m%d%H%M%S
+```
+
+### cal日历
+
+```
+cal
+
+cal 2018
+
+cal 5 2019
+
+cal 9 1752
+```
+
+
+
+### clock硬件时间
+
+```
+[root@ali ~]# clock
+Tue 21 Apr 2020 07:55:09 AM CST  -0.343020 seconds
+
+```
+
+## $关键字
+
+```
+shell 脚本中$$,$#,$?分别代表什么意思?
+给你个全的，你在Linux环境下多试下就明白了：
+$0 这个程式的执行名字
+$n 这个程式的第n个参数值，n=1..9
+$* 这个程式的所有参数,此选项参数可超过9个。
+$# 这个程式的参数个数
+$$ 这个程式的PID(脚本运行的当前进程ID号)
+$! 执行上一个背景指令的PID(后台运行的最后一个进程的进程ID号)
+$? 执行上一个指令的返回值 (显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误)
+$- 显示shell使用的当前选项，与set命令功能相同
+$@ 跟$*类似，但是可以当作数组用
+```
+
+## curl功能强大的命令行浏览器
+
+```
+功能强大的网页浏览器
+-s  安静的输出
+-o  下载/输出的位置
+-v  版本信息
+-I  查看头部信息
+-O  按照原文件名下载文件
+-o   按照新名字保存文件    curl -o bai.txt  http://bai.com/bai.xx   
+-C -  恢复下载   具体语法是    横杠 大写C 横杠
+例子：curl -O http://yourdomain.com/yourfile.tar.gz  下载时^c    
+恢复中断的下载  curl -C - -O http://yourdomain.com/yourfile.tar.gz
+
+下载多个文件：
+curl -O http://yoursite.com/info.html -O http://mysite.com/about.html 
+
+使用代理:
+curl -x proxy.yourdomain.com:8080 -U user:password -O http://yourdomain.com/yourfile.tar.gz
+
+post请求
+curl --data "firstName=John&lastName=Doe" https://yourdomain.com/info.php
+
+ftp下载
+curl -u username:password -O ftp://yourftpserver/yourfile.tar.gz 
+
+自定义user-agent：
+curl -I http://localhost --user-agent "I am a new web browser"
+
+保存cookie：
+curl --cookie-jar cnncookies.txt https://www.cnn.com/index.html -O
+
+发送cookie
+curl --cookie cnncookies.txt https://www.cnn.com
+
+设置解析服务器
+curl --resolve www.yourdomain.com:80:localhost http://www.yourdomain.com/
+
+设置下载速度
+curl --limit-rate 100K http://yourdomain.com/yourfile.tar.gz -O
+
+获得状态码
+curl  -s http://www.gjj12329.cn:32204/dm-app/index.html -o /dev/null -w %{http_code}
+
+ 
+```
+
+## xargs
+
+```
+-n参数  可以使原本一行的文本   变成多行
+
+[root@144 ~]# xargs  echo <test
+11111111111111111111 22222222222222222222222222222 333333333333333333333333333333
+
+
+[root@144 ~]# xargs -n1  echo <test
+11111111111111111111
+22222222222222222222222222222
+333333333333333333333333333333
+
+```
 
