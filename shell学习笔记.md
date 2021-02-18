@@ -108,4 +108,58 @@ tomorrow now
 \# 6: info
 \# 7: debug
 
-123
+## ssh命令
+
+命令：ssh
+
+```
+ssh $user@host
+ssh bai@192.168.1.1 
+```
+
+密钥对远程登陆
+
+生成秘钥命令：
+
+```
+ssh-keygen
+```
+
+拷贝秘钥命令：
+
+```
+ssh-copy-id
+```
+
+例子：
+
+```
+ssh-copy-id -i /home/alice/.ssh/id_rsa.pub alice@host                
+#i可省略，ssh默认公钥在.ssh目录下
+ssh-copy-id host
+```
+
+远程执行命令
+
+```shell
+ssh $ip          "echo '123425354'|passwd --stdin root"
+ssh ip “命令”
+```
+
+
+
+PermitRootLogin yes  允许root用户登陆
+
+\1. 打开 SSH 客户端。(了解操作方法 [使用 PuTTY 连接](https://docs.aws.amazon.com/console/ec2/instances/connect/putty))
+\2. 找到您的私有密钥文件(555.pem)。向导会自动检测您用于启动实例的密钥。
+\3. 您的密钥必须不公开可见，SSH 才能工作。如果需要，请使用此命令：chmod 400 555.pem
+\4. 通过其 公有 DNS 连接到您的实例:ec2-18-191-194-154.us-east-2.compute.amazonaws.com
+**示例：**ssh -i "555.pem" ubuntu@ec2-18-191-194-154.us-east-2.compute.amazonaws.com
+
+
+
+ssh -t -t root@10.98.1.10 << remotessh
+加两个-t -t 是为了强制打开一个窗口
+
+remotessh
+
